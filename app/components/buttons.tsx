@@ -20,7 +20,7 @@ const sizeFunction = (props:ButtonProps) => {
     case 'xl':
       return 'px-16 py-8 text-xl';
     case 'block':
-      return 'w-full py-8 text-md';
+      return 'w-full py-4 text-md';
     case 'md':
       return 'px-4 py-2 text-md';
     default:
@@ -72,7 +72,7 @@ export const ButtonConfirm = (props:ButtonProps) => {
   return (
     <button
     {...props}
-    className={`flex justify-center border-2 border-transparent gap-3 items-center bg-transparent hover:border-white hover:shadow-green-600 text-white bg-green-600 hover:bg-green-700 font-bold rounded-lg shadow-md shadow-gray-600 ${size ? sizeTailwind : ''} ${className || ''}`}
+    className={`flex justify-center border-2 border-transparent gap-3 items-center hover:border-white hover:shadow-green-600 text-white bg-green-600 hover:bg-green-700 font-bold rounded-lg shadow-md shadow-gray-600 ${size ? sizeTailwind : ''} ${className || ''}`}
     >
       {icon && cloneElement(icon)}
       <span>
