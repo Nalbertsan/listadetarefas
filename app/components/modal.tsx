@@ -2,15 +2,18 @@
 /* eslint-disable import/extensions */
 
 import { useState, MouseEvent, ChangeEvent } from 'react';
-import axios from 'axios';
+import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from './buttons';
-import { Input } from './inputs';
+import { InputDate, InputDefault } from './inputs';
 import { Textarea } from './textarea';
 import { selectOptions, InputSelect } from './select';
 
-interface modalProps{
+interface modalProps {
   isOpen: boolean,
   edition: boolean,
+  idTask?: number
   title?: string,
   description?: string,
   date?: string,
@@ -18,71 +21,82 @@ interface modalProps{
   handleClickToClose: () => void;
 }
 
-type typeTarefa = {
-  title: string,
-  description: string,
-  status: string,
-  date?: string,
-}
+const schemaForm = z.object({
+  title: z.string().min(1, { message: 'Erro! Digite um título válido' }),
+  description: z.string().min(1, { message: 'Erro! Digite uma descrição válida' }).max(500, { message: 'Erro! Digite uma descrição válida' }),
+  status: z.string().min(1, { message: 'Erro! Selecione um status válido' }),
+  date: z.coerce.date({ required_error: 'Erro! Selecione uma data válida' }),
+});
+
+type formData = z.infer<typeof schemaForm>
 
 export default function Modal({
-  isOpen, edition = false, title = '', description = '', date = '', status = '', handleClickToClose,
-}:modalProps) {
-  const [titleState, setTitleState] = useState(title);
-  const [descriptionState, setDescriptionState] = useState(description);
-  const [dateState, setDateState] = useState(date);
-  const [statusState, setStatusState] = useState(status);
+  isOpen, edition = false, idTask, title = '', description = '', date = '', status = '', handleClickToClose,
+}: modalProps) {
+  const {
+    register, handleSubmit, reset, formState: { errors },
+  } = useForm<FieldValues>({
+    criteriaMode: 'all',
+    mode: 'onBlur',
+    resolver: zodResolver(schemaForm),
+  });
 
-  const handleSubmit = async () => {
-    const submitData = { title: 'globo' };
+  const onSubmit: SubmitHandler<FieldValues> = async (task) => {
+    const dateInitial = new Date(task.date);
+    const dateFormatted = dateInitial.toISOString();
+    const submitData = {
+      date: dateFormatted,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      idTask,
+    };
 
-    try {
-      const res = await fetch('api/tarefas', {
-        method: 'POST',
-        body: JSON.stringify(submitData),
-        headers: {
-          'content-type': 'application/json',
-        },
-      });
-      console.log(res);
-      if (res.ok) {
-        console.log('Yeai!');
-      } else {
-        console.log('Oops! Something is wrong.');
+    if (!edition) {
+      try {
+        const res = await fetch('api/tarefas', {
+          method: 'POST',
+          body: JSON.stringify(submitData),
+          headers: {
+            'content-type': 'application/json',
+          },
+        });
+        console.log(res);
+        if (res.ok) {
+          console.log('Yeai!');
+        } else {
+          console.log('Oops! Something is wrong.');
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      try {
+        const res = await fetch('api/tarefas', {
+          method: 'PUT',
+          body: JSON.stringify(submitData),
+          headers: {
+            'content-type': 'application/json',
+          },
+        });
+        console.log(res);
+        if (res.ok) {
+          console.log('Yeai!');
+        } else {
+          console.log('Oops! Something is wrong.');
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
+    handleClickToClose();
   };
 
-  const handleModalClick = (event:MouseEvent<HTMLFormElement>) => {
+  const handleModalClick = (event: MouseEvent<HTMLFormElement>) => {
     event.stopPropagation();
   };
 
-  const handleChangeTitle = (event:ChangeEvent<HTMLInputElement>) => {
-    setTitleState(event.target.value);
-  };
-
-  const handleChangeDescription = (event:ChangeEvent<HTMLTextAreaElement>) => {
-    setDescriptionState(event.target.value);
-  };
-
-  const handleChangeDate = (event:ChangeEvent<HTMLInputElement>) => {
-    setDateState(event.target.value);
-  };
-
-  const handleChangeStatus = (event:ChangeEvent<HTMLSelectElement>) => {
-    setStatusState(event.target.value);
-  };
-
-  const handleClearForm = () => {
-    setTitleState('');
-    setDescriptionState('');
-    setDateState('');
-    setStatusState('');
-  };
-
-  const options:selectOptions = {
+  const options: selectOptions = {
     pendente: 'Pendente',
     executando: 'Executando',
     concluida: 'Concluída',
@@ -90,21 +104,21 @@ export default function Modal({
 
   return (
     <>
-      {isOpen && (<div onClick={() => { handleClickToClose(); }} className='text-black flex items-center justify-center fixed w-full h-full bg-black bg-opacity-60'>
-        <form onClick={(e) => handleModalClick(e)} onSubmit={() => handleSubmit() }
-                className='w-11/12 h-9/12 bg-white rounded-lg max-w-md p-8 shadow-lg shadow-gray-800'>
+      {isOpen && (<div onClick={() => { reset(); handleClickToClose(); }} onSubmit={handleSubmit(onSubmit)} className='text-black flex items-center justify-center fixed w-full md:h-full bg-black bg-opacity-60 overflow-y-scroll'>
+        <form onClick={(e) => handleModalClick(e)}
+          className='w-11/12 bg-white rounded-lg max-w-lg p-8 md:p-12 shadow-lg shadow-gray-800  md:mx-auto'>
           <section className='w-full flex items-center justify-center bg-blue-700 rounded-3xl'>
             <h1 className='text-3xl text-white'>{`${edition ? 'Edição de' : 'Adicionar'} Tarefa`}</h1>
           </section>
           <div className='w-full py-8 flex flex-col items-center justify-center'>
-            <Input defaultValue={title} value={titleState} onChange={(e) => handleChangeTitle(e)} name='Título:' placeholder='Digite o título'/>
-            <Textarea value={descriptionState} onChange={(e) => handleChangeDescription(e)} name='Descrição:' placeholder='Digite a descrição'/>
-            <Input value={dateState} onChange={(e) => handleChangeDate(e)} variant='date' name='Data:'/>
-            <InputSelect defaultValue={statusState} onChange={(e) => handleChangeStatus(e)} options={options} name='Status:'/>
+            <InputDefault defaultValue={edition ? title : ''} label='Título' id="title" register={register} errors={errors} />
+            <Textarea defaultValue={edition ? description : ''} id='description' label='Descrição' register={register} errors={errors} placeholder='Digite a descrição' />
+            <InputDate defaultValue={edition ? date : ''} label='Data' id="date" register={register} errors={errors} />
+            <InputSelect defaultValue={edition ? status : ''} options={options} label='Status:' id='status' register={register} errors={errors} />
           </div>
           <div className='flex flex-col py-4 gap-y-3'>
-            <Button variant='cancel' size='block' onClick={() => { handleClearForm(); handleClickToClose(); }}>Cancelar</Button>
-            <Button type='submit' variant='confirm' size='block' onClick={() => {}}>Confirmar</Button>
+            <Button variant='cancel' size='block' onClick={() => { reset(); handleClickToClose(); }}>Cancelar</Button>
+            <Button type='submit' variant='confirm' size='block' onClick={() => { }}>Confirmar</Button>
           </div>
         </form>
       </div>)

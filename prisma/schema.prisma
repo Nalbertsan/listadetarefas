@@ -14,7 +14,7 @@ generator client {
 model Tarefa {
   id        Int      @id @default(autoincrement())
   title     String
-  date DateTime?   
+  date DateTime   
   description   String @db.VarChar(500)
   status STATUS
 }
