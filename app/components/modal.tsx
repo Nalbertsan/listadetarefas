@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/extensions */
 
-import { useState, MouseEvent, ChangeEvent } from 'react';
+import { MouseEvent } from 'react';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -27,8 +27,6 @@ const schemaForm = z.object({
   status: z.string().min(1, { message: 'Erro! Selecione um status válido' }),
   date: z.coerce.date({ required_error: 'Erro! Selecione uma data válida' }),
 });
-
-type formData = z.infer<typeof schemaForm>
 
 export default function Modal({
   isOpen, edition = false, idTask, title = '', description = '', date = '', status = '', handleClickToClose,
@@ -96,6 +94,13 @@ export default function Modal({
     event.stopPropagation();
   };
 
+  const transformDate = () => {
+    const formattedDate = date;
+    const noDateFormatted = formattedDate.substring(0, 10);
+    console.log(noDateFormatted);
+    return noDateFormatted;
+  };
+
   const options: selectOptions = {
     pendente: 'Pendente',
     executando: 'Executando',
@@ -104,25 +109,24 @@ export default function Modal({
 
   return (
     <>
-      {isOpen && (<div onClick={() => { reset(); handleClickToClose(); }} onSubmit={handleSubmit(onSubmit)} className='text-black flex items-center justify-center fixed w-full md:h-full bg-black bg-opacity-60 overflow-y-scroll'>
-        <form onClick={(e) => handleModalClick(e)}
-          className='w-11/12 bg-white rounded-lg max-w-lg p-8 md:p-12 shadow-lg shadow-gray-800  md:mx-auto'>
+      <dialog open={isOpen} onClick={() => { reset(); handleClickToClose(); }} className='text-black fixed w-full h-full z-10 bg-black bg-opacity-60 top-0 overflow-auto p-2 py-20 '>
+        <form onClick={(e) => handleModalClick(e)} onSubmit={handleSubmit(onSubmit)}
+          className=' bg-white rounded-lg max-w-lg p-8 md:p-12 shadow-lg shadow-gray-800 m-auto'>
           <section className='w-full flex items-center justify-center bg-blue-700 rounded-3xl'>
             <h1 className='text-3xl text-white'>{`${edition ? 'Edição de' : 'Adicionar'} Tarefa`}</h1>
           </section>
-          <div className='w-full py-8 flex flex-col items-center justify-center'>
+          <div className='w-full h-90 py-8 flex flex-col items-center justify-center'>
             <InputDefault defaultValue={edition ? title : ''} label='Título' id="title" register={register} errors={errors} />
             <Textarea defaultValue={edition ? description : ''} id='description' label='Descrição' register={register} errors={errors} placeholder='Digite a descrição' />
-            <InputDate defaultValue={edition ? date : ''} label='Data' id="date" register={register} errors={errors} />
+            <InputDate defaultValue={edition ? transformDate() : ''} label='Data' id="date" register={register} errors={errors} />
             <InputSelect defaultValue={edition ? status : ''} options={options} label='Status:' id='status' register={register} errors={errors} />
           </div>
-          <div className='flex flex-col py-4 gap-y-3'>
+          <div className='h-40 flex flex-col py-4 gap-y-3'>
             <Button variant='cancel' size='block' onClick={() => { reset(); handleClickToClose(); }}>Cancelar</Button>
             <Button type='submit' variant='confirm' size='block' onClick={() => { }}>Confirmar</Button>
           </div>
         </form>
-      </div>)
-      }
+      </dialog>
     </>
   );
 }

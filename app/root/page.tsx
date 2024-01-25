@@ -29,9 +29,13 @@ export default function Home() {
 			<div className='w-full h-screen flex items-center justify-center flex-col gap-5'>
 				<Button variant='confirm' onClick={ () => { setEdi(!edi); } } size='md' icon={<FaPlus/>}>Adicionar Tarefa</Button>
 				<Button size='md' onClick={() => { handleClickToOpen(); }} >Joias</Button>
-				<Modal title='Teste' edition={edi} isOpen={open} handleClickToClose={handleClickToClose}/>
-        <Button size='md' onClick={() => { handleClickToOpen1(); }} >Joias</Button>
+        <Button size='md' onClick={() => { handleClickToClose(); }} >Joias</Button>
         <Modal edition={true} isOpen={open1} idTask={4} title='Roda Roda' date='2024-11-30' description='Edição foda' status='pendente' handleClickToClose={handleClickToClose1}/>
+        <dialog className='w-full h-90' open={open}>
+          <div className='w-full h-screen'>
+            gogogogogogo
+          </div>
+          </dialog>
 			</div>
 		</>
   );
