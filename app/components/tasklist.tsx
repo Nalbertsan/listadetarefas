@@ -1,6 +1,8 @@
 /* eslint-disable import/extensions */
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+
+'use client';
+
+import useSWR from 'swr';
 import { Task } from './task';
 
 type typeTask = {
@@ -12,23 +14,20 @@ type typeTask = {
 }
 
 export default function List() {
-  const [tasks, setTasks] = useState<typeTask[]>([]);
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const { data, mutate } = useSWR<typeTask[]>('api/tarefas', fetcher);
 
-  const listTask = async () => {
-    const response = await axios.get('api/tarefas');
-    const { data } = response;
-    setTasks(data);
+  const handleUpdateData = async () => {
+    mutate();
   };
-
-  useEffect(() => {
-    listTask();
-  }, []);
 
   return (
     <>
-      <ul className="flex flex-col text-black w-full gap-4 p-4 rounded-lg bg-white">
-        {tasks?.map((task) => <Task title={task.title} key={task.id} id={task.id}
-         date={task.date} description={task.description} status={task.status} />)}
+      <ul className="flex flex-col min-h-96 text-black w-full gap-4 p-4 rounded-lg bg-white">
+        {data?.map((task) => <Task title={task.title} key={task.id} id={task.id}
+         date={task.date} description={task.description}
+         status={task.status} handleUpdateData={handleUpdateData} />)
+         }
       </ul>
     </>
   );

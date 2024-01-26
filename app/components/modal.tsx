@@ -1,6 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/extensions */
 
+'use client';
+
 import { MouseEvent } from 'react';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { z } from 'zod';
@@ -19,17 +21,18 @@ interface modalProps {
   date?: string,
   status?: string,
   handleClickToClose: () => void;
+  handleUpdateData: () => void;
 }
 
 const schemaForm = z.object({
-  title: z.string().min(1, { message: 'Erro! Digite um título válido' }),
-  description: z.string().min(1, { message: 'Erro! Digite uma descrição válida' }).max(500, { message: 'Erro! Digite uma descrição válida' }),
+  title: z.string().min(1, { message: 'Erro! Digite um título válido' }).max(60, { message: 'Erro! Digite um título menor' }),
+  description: z.string().min(1, { message: 'Erro! Digite uma descrição válida' }).max(200, { message: 'Erro! Digite uma descrição menor' }),
   status: z.string().min(1, { message: 'Erro! Selecione um status válido' }),
   date: z.coerce.date({ required_error: 'Erro! Selecione uma data válida' }),
 });
 
 export default function Modal({
-  isOpen, edition = false, idTask, title = '', description = '', date = '', status = '', handleClickToClose,
+  isOpen, edition = false, idTask, title = '', description = '', date = '', status = '', handleClickToClose, handleUpdateData,
 }: modalProps) {
   const {
     register, handleSubmit, reset, formState: { errors },
@@ -47,7 +50,7 @@ export default function Modal({
       title: task.title,
       description: task.description,
       status: task.status,
-      idTask,
+      id:idTask,
     };
 
     if (!edition) {
@@ -87,6 +90,7 @@ export default function Modal({
         console.log(error);
       }
     }
+    handleUpdateData();
     handleClickToClose();
   };
 
@@ -97,7 +101,6 @@ export default function Modal({
   const transformDate = () => {
     const formattedDate = date;
     const noDateFormatted = formattedDate.substring(0, 10);
-    console.log(noDateFormatted);
     return noDateFormatted;
   };
 
@@ -122,8 +125,8 @@ export default function Modal({
             <InputSelect defaultValue={edition ? status : ''} options={options} label='Status:' id='status' register={register} errors={errors} />
           </div>
           <div className='h-40 flex flex-col py-4 gap-y-3'>
-            <Button variant='cancel' size='block' onClick={() => { reset(); handleClickToClose(); }}>Cancelar</Button>
-            <Button type='submit' variant='confirm' size='block' onClick={() => { }}>Confirmar</Button>
+            <Button type='reset' variant='cancel' size='block' onClick={() => { handleClickToClose(); }}>Cancelar</Button>
+            <Button type='submit' variant='confirm' size='block'>Confirmar</Button>
           </div>
         </form>
       </dialog>

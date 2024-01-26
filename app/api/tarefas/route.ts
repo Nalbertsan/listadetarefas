@@ -1,9 +1,10 @@
 /* eslint-disable import/extensions */
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 type typeTarefa = {
-  idTask?: number,
+  id?: number,
   title: string,
   description: string,
   status: 'pendente' | 'executando' | 'concluida',
@@ -34,7 +35,7 @@ export async function PUT(request: NextRequest) {
   console.log(data);
   const updateTask = await prisma?.tarefa.update({
     where: {
-      id: data.idTask,
+      id: data.id,
     },
     data: {
       title: data.title,
@@ -52,9 +53,8 @@ export async function DELETE(request: NextRequest) {
   console.log(data);
   const deleteTask = await prisma?.tarefa.delete({
     where: {
-      id: data.idTask,
+      id: data.id,
     },
-
   });
   return NextResponse.json({ message: 'sucesso!' });
 }

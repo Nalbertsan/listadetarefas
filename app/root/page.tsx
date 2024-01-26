@@ -30,7 +30,7 @@ export default function Home() {
 				<Button variant='confirm' onClick={ () => { setEdi(!edi); } } size='md' icon={<FaPlus/>}>Adicionar Tarefa</Button>
 				<Button size='md' onClick={() => { handleClickToOpen(); }} >Joias</Button>
         <Button size='md' onClick={() => { handleClickToClose(); }} >Joias</Button>
-        <Modal edition={true} isOpen={open1} idTask={4} title='Roda Roda' date='2024-11-30' description='Edição foda' status='pendente' handleClickToClose={handleClickToClose1}/>
+        <Modal edition={true} isOpen={open} idTask={4} title='Roda Roda' date='2024-11-30' description='Edição foda' status='pendente' handleClickToClose={handleClickToClose} handleUpdateData={() => console.log('nada')}/>
         <dialog className='w-full h-90' open={open}>
           <div className='w-full h-screen'>
             gogogogogogo
