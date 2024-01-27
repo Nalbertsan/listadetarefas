@@ -1,16 +1,13 @@
-'use client';
-
-import useSWR from 'swr';
 import { taskType } from '@/app/types/types';
 import { Task } from './task';
 
-export default function TaskList() {
-  const fetcher = (url:string) => fetch(url).then((res) => res.json());
-  const { data, mutate } = useSWR<taskType[]>('api/tarefas', fetcher);
+interface propsList {
+  handleUpdateData: () => void,
+  data?: taskType[],
+}
 
-  const handleUpdateData = async () => {
-    mutate();
-  };
+export default function TaskList(props:propsList) {
+  const { data, handleUpdateData } = props;
 
   return (
     <>

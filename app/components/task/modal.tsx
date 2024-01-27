@@ -51,6 +51,7 @@ export default function Modal({
       id,
     };
     handleClickToClose();
+    reset();
     if (!edition) {
       try {
         const res = await fetch('api/tarefas', {
@@ -70,7 +71,7 @@ export default function Modal({
       }
     } else {
       try {
-        const res = await fetch('api/tarefas', {
+        const res = await fetch(`api/tarefas/${id}`, {
           method: 'PUT',
           body: JSON.stringify(submitData),
           headers: {
@@ -121,7 +122,7 @@ export default function Modal({
           </div>
           <div className='h-40 flex flex-col py-4 gap-y-3'>
             <Button type='reset' variant='cancel' size='block' onClick={() => { reset(); handleClickToClose(); }}>Cancelar</Button>
-            <Button type='submit' variant='confirm' size='block'>Confirmar</Button>
+            <Button type='submit' variant='confirm' size='block' >Confirmar</Button>
           </div>
         </form>
       </dialog>

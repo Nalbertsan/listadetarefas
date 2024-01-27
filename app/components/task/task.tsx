@@ -29,11 +29,9 @@ export const Task = (props: LiProps) => {
   };
 
   const handlerDelete = async () => {
-    const submitData = { id };
     try {
-      const res = await fetch('api/tarefas', {
+      const res = await fetch(`api/tarefas/${id}`, {
         method: 'DELETE',
-        body: JSON.stringify(submitData),
         headers: {
           'content-type': 'application/json',
         },

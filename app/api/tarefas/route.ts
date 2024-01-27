@@ -19,30 +19,3 @@ export async function POST(request: NextRequest) {
   });
   return NextResponse.json({ message: 'sucesso!' });
 }
-
-export async function PUT(request: NextRequest) {
-  const data: taskType = await request.json();
-  const updateTask = await prisma?.tarefa.update({
-    where: {
-      id: data.id,
-    },
-    data: {
-      title: data.title,
-      description: data.description,
-      status: data.status,
-      date: data.date,
-    },
-
-  });
-  return NextResponse.json({ message: 'sucesso!' });
-}
-
-export async function DELETE(request: NextRequest) {
-  const data: taskType = await request.json();
-  const deleteTask = await prisma?.tarefa.delete({
-    where: {
-      id: data.id,
-    },
-  });
-  return NextResponse.json({ message: 'sucesso!' });
-}
