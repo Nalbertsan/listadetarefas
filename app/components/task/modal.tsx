@@ -78,7 +78,6 @@ export default function Modal({
             'content-type': 'application/json',
           },
         });
-        console.log(res);
         if (res.ok) {
           console.log('Yeai!');
         } else {
