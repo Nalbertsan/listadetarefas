@@ -1,7 +1,5 @@
-/* eslint-disable import/extensions */
-
-import List from '../components/tasklist';
-import Menu from '../components/menu';
+import TaskList from '../components/task/tasklist';
+import Menu from '../components/task/menu';
 
 export default function Home() {
   return (
@@ -11,7 +9,7 @@ export default function Home() {
 					<Menu/>
 				</div>
 				<div className="w-full">
-					<List/>
+					<TaskList/>
 				</div>
 			</div>
 		</main>

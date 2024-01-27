@@ -1,7 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable max-len */
-/* eslint-disable no-multiple-empty-lines */
-/* eslint-disable react/display-name */
 import React from 'react';
 import {
   FieldErrors,
@@ -24,7 +20,9 @@ export const Textarea: React.FC<TextAreaProps> = ({
 }) => (
   <div className='w-full'>
     <label htmlFor={id} className="block mb-2 text-md font-semibold text-gray-900">{`${label}`}</label>
-    <textarea defaultValue={defaultValue} id={id} {...register(id, { required })} placeholder={placeholder} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 outline-none block w-full p-2.5 h-40 resize-none" />
+    <textarea defaultValue={defaultValue} id={id}
+     {...register(id, { required })} placeholder={placeholder}
+     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 outline-none block w-full p-2.5 h-40 resize-none" />
     {errors[id] && <p className='text-sm text-red-600 font-medium'>{`${errors[id]?.message}`}</p>}
   </div>
 );

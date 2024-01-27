@@ -1,15 +1,6 @@
-/* eslint-disable import/extensions */
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { revalidatePath } from 'next/cache';
-
-type typeTarefa = {
-  id?: number,
-  title: string,
-  description: string,
-  status: 'pendente' | 'executando' | 'concluida',
-  date: string,
-}
+import { taskType } from '@/app/types/types';
 
 export async function GET() {
   const AllList = await prisma?.tarefa.findMany();
@@ -17,8 +8,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const data: typeTarefa = await request.json();
-  console.log(data);
+  const data: taskType = await request.json();
   const createTask = await prisma?.tarefa.create({
     data: {
       title: data.title,
@@ -31,8 +21,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const data: typeTarefa = await request.json();
-  console.log(data);
+  const data: taskType = await request.json();
   const updateTask = await prisma?.tarefa.update({
     where: {
       id: data.id,
@@ -49,8 +38,7 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const data: typeTarefa = await request.json();
-  console.log(data);
+  const data: taskType = await request.json();
   const deleteTask = await prisma?.tarefa.delete({
     where: {
       id: data.id,

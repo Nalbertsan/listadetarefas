@@ -36,7 +36,8 @@ export const ButtonDefault = (props:ButtonProps) => {
   return (
     <button
     {...props}
-    className={`flex justify-center border-2 border-transparent gap-3 items-center bg-blue-500 hover:bg-blue-600 hover:shadow-blue-400 text-white font-bold rounded-lg shadow-md shadow-gray-600 ${size ? sizeTailwind : ''} ${className || ''}`}
+    className={`flex justify-center border-2 border-transparent gap-3 items-center bg-blue-500 hover:bg-blue-600
+     hover:shadow-blue-400 text-white font-bold rounded-lg shadow-md shadow-gray-600 ${size ? sizeTailwind : ''} ${className || ''}`}
     >
       {icon && cloneElement(icon)}
       <span>
@@ -54,7 +55,8 @@ export const ButtonCancel = (props:ButtonProps) => {
   return (
     <button
     {...props}
-    className={`flex justify-center border-2 border-transparent gap-3 items-center bg-transparent hover:bg-white hover:border-red-800 hover:shadow-red-800 text-red-800 font-bold rounded-lg shadow-md shadow-gray-600 ${size ? sizeTailwind : ''} ${className || ''}`}
+    className={`flex justify-center border-2 border-transparent gap-3 items-center bg-transparent hover:bg-white
+     hover:border-red-800 hover:shadow-red-800 text-red-800 font-bold rounded-lg shadow-md shadow-gray-600 ${size ? sizeTailwind : ''} ${className || ''}`}
     >
       {icon && cloneElement(icon)}
       <span>
@@ -72,7 +74,9 @@ export const ButtonConfirm = (props:ButtonProps) => {
   return (
     <button
     {...props}
-    className={`flex justify-center border-2 border-transparent gap-3 items-center hover:border-white hover:shadow-green-600 text-white bg-green-600 hover:bg-green-700 font-bold rounded-lg shadow-md shadow-gray-600 ${size ? sizeTailwind : ''} ${className || ''}`}
+    className={`flex justify-center border-2 border-transparent gap-3 items-center hover:border-white
+     hover:shadow-green-600 text-white bg-green-600 hover:bg-green-700 font-bold rounded-lg shadow-md
+      shadow-gray-600 ${size ? sizeTailwind : ''} ${className || ''}`}
     >
       {icon && cloneElement(icon)}
       <span>

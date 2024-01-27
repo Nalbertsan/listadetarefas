@@ -1,37 +1,32 @@
-/* eslint-disable default-case */
-
 'use client';
 
 import {
   LiHTMLAttributes, useState,
 } from 'react';
-
 import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
+import { taskType } from '@/app/types/types';
 import Modal from './modal';
 
 interface LiProps extends LiHTMLAttributes<HTMLLIElement> {
-  id: number,
-  title?: string,
-  description?: string,
-  status: 'pendente' | 'executando' | 'concluida',
-  date: string,
+  data:taskType,
   handleUpdateData: () => void,
 }
 
 export const Task = (props: LiProps) => {
+  const { data, handleUpdateData } = props;
+  const {
+    date = '', status, description, title, id,
+  } = data;
+
   const [open, setOpen] = useState(false);
 
   const handleClickToOpen = () => {
     setOpen(true);
   };
+
   const handleClickToClose = () => {
     setOpen(false);
   };
-  const {
-    id, title, description, status, date, handleUpdateData,
-  } = props;
-  let containerColor;
-  let statusColor;
 
   const handlerDelete = async () => {
     const submitData = { id };
@@ -55,6 +50,8 @@ export const Task = (props: LiProps) => {
     handleUpdateData();
   };
 
+  let containerColor;
+  let statusColor;
   switch (status) {
     case 'pendente':
       containerColor = 'bg-gray-one';
@@ -69,9 +66,11 @@ export const Task = (props: LiProps) => {
       statusColor = 'bg-green-two';
       break;
   }
+
   return (
     <>
-      <li className={`w-full h-80 sm:h-56 rounded-xl p-4 grid grid-cols-3 grid-rows-6 gap-x-1 md:gap-3 border border-transparent transition-colors hover:border-gray-300 hover:dark:border-neutral-700  ${containerColor}`}>
+      <li className={`w-full h-80 sm:h-56 rounded-xl p-4 grid grid-cols-3 grid-rows-6 gap-x-1 md:gap-3 border border-transparent
+       transition-colors hover:border-gray-300 hover:dark:border-neutral-700  ${containerColor}`}>
         <div className='col-span-2 row-span-2'>
           <h2 className='text-center w-full h-full text-base md:text-lg font-bold text-wrap capitalize'>
             {title}
@@ -101,7 +100,7 @@ export const Task = (props: LiProps) => {
         <Modal
           edition={true}
           isOpen={open}
-          idTask={id}
+          id={id}
           title={title}
           date={date}
           description={description}

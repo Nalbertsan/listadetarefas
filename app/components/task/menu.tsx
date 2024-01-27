@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { Button } from './buttons';
+import { Button } from '../basics/buttons';
 import Modal from './modal';
 
 export default function Menu() {
