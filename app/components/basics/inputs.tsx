@@ -21,7 +21,7 @@ export const InputDefault: React.FC<InputProps> = ({
   <div className='w-full'>
     <label htmlFor={id} className="block mb-2 text-md font-semibold text-gray-900">{`${label}`}</label>
     <input defaultValue={defaultValue} id={id}
-    {...register(id, { required })} placeholder={placeholder}
+      {...register(id, { required })} placeholder={placeholder}
       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 outline-none block w-full p-2.5" />
     {errors[id] && <p className='text-sm text-red-600 font-medium'>{`${errors[id]?.message}`}</p>}
   </div>
@@ -40,7 +40,7 @@ export const InputDate: React.FC<InputProps> = ({
         </svg>
       </div>
       <input defaultValue={defaultValue} type="date" id={id} {...register(id, { required })}
-      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 outline-none " />
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 outline-none " />
     </div>
     {errors[id] && <p className='text-sm text-red-600 font-medium'>Erro! Selecione uma data válida</p>}
   </div>

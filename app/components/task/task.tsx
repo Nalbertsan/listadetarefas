@@ -6,7 +6,7 @@ import { taskType } from '@/app/types/types';
 import Modal from './modal';
 
 interface LiProps extends LiHTMLAttributes<HTMLLIElement> {
-  data:taskType,
+  data: taskType,
   handleUpdateData: () => void,
 }
 

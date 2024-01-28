@@ -7,7 +7,7 @@ interface propsMenu {
   handleUpdateData: () => void;
 }
 
-export default function Menu(props:propsMenu) {
+export default function Add(props: propsMenu) {
   const [open, setOpen] = useState(false);
   const { handleUpdateData } = props;
 
@@ -19,10 +19,10 @@ export default function Menu(props:propsMenu) {
   };
 
   return (
-		<section className="flex flex-col items-center justify-between p-4 my-4 bg-white rounded-lg">
-      <Button onClick={ () => { handleClickToOpen(); } } size='block' icon={<FaPlus/>}>Adicionar nova Tarefa</Button>
-      <Modal edition={false} isOpen={open} handleClickToClose={handleClickToClose}
-       handleUpdateData={handleUpdateData}/>
-		</section>
+    <section className="flex flex-col items-center justify-between p-4 my-4 bg-white rounded-lg">
+      <Button onClick={() => { handleClickToOpen(); }} size='block' icon={<FaPlus />}>Adicionar nova Tarefa</Button>
+      <Modal edition={false} isOpen={open} handleClickToClose={handleClickToClose} title='a'
+        handleUpdateData={handleUpdateData} />
+    </section>
   );
 }

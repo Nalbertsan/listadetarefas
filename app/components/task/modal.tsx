@@ -49,7 +49,6 @@ export default function Modal({
       id,
     };
     handleClickToClose();
-    reset();
     if (!edition) {
       try {
         const res = await fetch('api/tarefas', {
@@ -61,6 +60,7 @@ export default function Modal({
         });
         if (res.ok) {
           console.log('Yeai!');
+          reset();
         } else {
           console.log('Oops! Something is wrong.');
         }
@@ -85,14 +85,14 @@ export default function Modal({
         console.log(error);
       }
     }
-    handleUpdateData();
+    await handleUpdateData();
   };
 
   const handleModalClick = (event: MouseEvent<HTMLFormElement>) => {
     event.stopPropagation();
   };
 
-  const transformDate = (formattedDate:string) => {
+  const transformDate = (formattedDate: string) => {
     const noDateFormatted = formattedDate.substring(0, 10);
     return noDateFormatted;
   };
@@ -102,11 +102,11 @@ export default function Modal({
     executando: 'Executando',
     concluida: 'Concluída',
   };
-
+  console.log(edition);
   return (
     <>
       <dialog open={isOpen} onClick={() => { reset(); handleClickToClose(); }}
-      className='text-black fixed w-full h-full z-10 bg-black bg-opacity-60 top-0 overflow-auto p-2 py-20 '>
+        className='text-black fixed w-full h-full z-10 bg-black bg-opacity-60 top-0 overflow-auto p-2 py-20 '>
         <form onClick={(e) => handleModalClick(e)} onSubmit={handleSubmit(onSubmit)}
           className=' bg-white rounded-lg max-w-lg p-8 md:p-12 shadow-lg shadow-gray-800 m-auto'>
           <section className={`w-full flex items-center justify-center ${leckFont.className}`}>
@@ -120,7 +120,7 @@ export default function Modal({
           </div>
           <div className='h-40 flex flex-col py-4 gap-y-3'>
             <Button type='reset' variant='cancel' size='block' onClick={() => { reset(); handleClickToClose(); }}>Cancelar</Button>
-            <Button type='submit' variant='confirm' size='block' >Confirmar</Button>
+            <Button type='submit' variant='confirm' size='block'>Confirmar</Button>
           </div>
         </form>
       </dialog>

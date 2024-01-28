@@ -9,6 +9,7 @@ type propsID = {
 export async function PUT(request: NextRequest, { params }:propsID) {
   const id = parseInt(params.id, 10);
   const data: taskType = await request.json();
+  console.log(data);
   const updateTask = await prisma?.tarefa.update({
     where: {
       id,
