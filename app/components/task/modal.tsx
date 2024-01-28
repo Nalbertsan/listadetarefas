@@ -1,10 +1,8 @@
-'use client';
-
 import { MouseEvent } from 'react';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { selectOptions } from '@/app/types/types';
+import { selectOptions, leckFont } from '@/app/types/types';
 import { Button } from '../basics/buttons';
 import { InputDate, InputDefault } from '../basics/inputs';
 import { Textarea } from '../basics/textarea';
@@ -111,13 +109,13 @@ export default function Modal({
       className='text-black fixed w-full h-full z-10 bg-black bg-opacity-60 top-0 overflow-auto p-2 py-20 '>
         <form onClick={(e) => handleModalClick(e)} onSubmit={handleSubmit(onSubmit)}
           className=' bg-white rounded-lg max-w-lg p-8 md:p-12 shadow-lg shadow-gray-800 m-auto'>
-          <section className='w-full flex items-center justify-center bg-blue-700 rounded-3xl'>
-            <h1 className='text-3xl text-white'>{`${edition ? 'Edição de' : 'Adicionar'} Tarefa`}</h1>
+          <section className={`w-full flex items-center justify-center ${leckFont.className}`}>
+            <h1 className='text-3xl '>{`${edition ? 'Edição de' : 'Adicionar'} Tarefa`}</h1>
           </section>
           <div className='w-full h-90 py-8 flex flex-col items-center justify-center'>
-            <InputDefault defaultValue={edition ? title : ''} label='Título' id="title" register={register} errors={errors} />
-            <Textarea defaultValue={edition ? description : ''} id='description' label='Descrição' register={register} errors={errors} placeholder='Digite a descrição' />
-            <InputDate defaultValue={edition ? transformDate(date) : ''} label='Data' id="date" register={register} errors={errors} />
+            <InputDefault defaultValue={edition ? title : ''} label='Título:' id="title" register={register} errors={errors} />
+            <Textarea defaultValue={edition ? description : ''} id='description' label='Descrição:' register={register} errors={errors} placeholder='Digite a descrição' />
+            <InputDate defaultValue={edition ? transformDate(date) : ''} label='Data:' id="date" register={register} errors={errors} />
             <InputSelect defaultValue={edition ? status : ''} options={options} label='Status:' id='status' register={register} errors={errors} />
           </div>
           <div className='h-40 flex flex-col py-4 gap-y-3'>

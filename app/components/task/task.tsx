@@ -1,5 +1,3 @@
-'use client';
-
 import {
   LiHTMLAttributes, useState,
 } from 'react';
@@ -67,7 +65,7 @@ export const Task = (props: LiProps) => {
 
   return (
     <>
-      <li className={`w-full h-80 sm:h-56 rounded-xl p-4 grid grid-cols-3 grid-rows-6 gap-x-1 md:gap-3 border border-transparent
+      <li className={`my-4 w-full h-80 sm:h-56 rounded-xl p-4 grid grid-cols-3 grid-rows-6 gap-x-1 md:gap-3 border border-transparent
        transition-colors hover:border-gray-300 hover:dark:border-neutral-700  ${containerColor}`}>
         <div className='col-span-2 row-span-2'>
           <h2 className='text-center w-full h-full text-base md:text-lg font-bold text-wrap capitalize'>

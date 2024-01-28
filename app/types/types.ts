@@ -1,3 +1,8 @@
+// eslint-disable-next-line camelcase
+import { Leckerli_One } from 'next/font/google';
+
+export const leckFont = Leckerli_One({ weight: '400', subsets: ['latin'] });
+
 export type taskType = {
   id?: number,
   title: string,

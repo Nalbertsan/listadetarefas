@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { Button } from '../basics/buttons';
@@ -21,8 +19,8 @@ export default function Menu(props:propsMenu) {
   };
 
   return (
-		<section className="flex flex-col items-center justify-between p-4 mb-4">
-      <Button onClick={ () => { handleClickToOpen(); } } size='md' icon={<FaPlus/>}>Adicionar Tarefa</Button>
+		<section className="flex flex-col items-center justify-between p-4 my-4 bg-white rounded-lg">
+      <Button onClick={ () => { handleClickToOpen(); } } size='block' icon={<FaPlus/>}>Adicionar nova Tarefa</Button>
       <Modal edition={false} isOpen={open} handleClickToClose={handleClickToClose}
        handleUpdateData={handleUpdateData}/>
 		</section>
