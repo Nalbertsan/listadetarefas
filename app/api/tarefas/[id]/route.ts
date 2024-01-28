@@ -9,8 +9,7 @@ type propsID = {
 export async function PUT(request: NextRequest, { params }:propsID) {
   const id = parseInt(params.id, 10);
   const data: taskType = await request.json();
-  console.log(data);
-  const updateTask = await prisma?.tarefa.update({
+  await prisma?.tarefa.update({
     where: {
       id,
     },
@@ -27,7 +26,7 @@ export async function PUT(request: NextRequest, { params }:propsID) {
 
 export async function DELETE(request: NextRequest, { params }:propsID) {
   const id = parseInt(params.id, 10);
-  const deleteTask = await prisma?.tarefa.delete({
+  await prisma?.tarefa.delete({
     where: {
       id,
     },

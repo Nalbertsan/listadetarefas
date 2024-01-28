@@ -9,7 +9,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const data: taskType = await request.json();
-  const createTask = await prisma?.tarefa.create({
+  await prisma?.tarefa.create({
     data: {
       title: data.title,
       description: data.description,

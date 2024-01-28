@@ -28,18 +28,12 @@ export const Task = (props: LiProps) => {
 
   const handlerDelete = async () => {
     try {
-      const res = await fetch(`api/tarefas/${id}`, {
+      await fetch(`api/tarefas/${id}`, {
         method: 'DELETE',
         headers: {
           'content-type': 'application/json',
         },
       });
-      console.log(res);
-      if (res.ok) {
-        console.log('Yeai!');
-      } else {
-        console.log('Oops! Something is wrong.');
-      }
     } catch (error) {
       console.log(error);
     }

@@ -59,28 +59,20 @@ export default function Modal({
           },
         });
         if (res.ok) {
-          console.log('Yeai!');
           reset();
-        } else {
-          console.log('Oops! Something is wrong.');
         }
       } catch (error) {
         console.log(error);
       }
     } else {
       try {
-        const res = await fetch(`api/tarefas/${id}`, {
+        await fetch(`api/tarefas/${id}`, {
           method: 'PUT',
           body: JSON.stringify(submitData),
           headers: {
             'content-type': 'application/json',
           },
         });
-        if (res.ok) {
-          console.log('Yeai!');
-        } else {
-          console.log('Oops! Something is wrong.');
-        }
       } catch (error) {
         console.log(error);
       }
@@ -102,7 +94,7 @@ export default function Modal({
     executando: 'Executando',
     concluida: 'Concluída',
   };
-  console.log(edition);
+
   return (
     <>
       <dialog open={isOpen} onClick={() => { reset(); handleClickToClose(); }}
